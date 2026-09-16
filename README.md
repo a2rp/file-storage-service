@@ -260,39 +260,38 @@ Response
 
 ```text
 file-storage-service/
-├── src/
-│   ├── config/
-│   │   ├── database.js
-│   │   └── storage.js
-│   ├── controllers/
-│   │   └── file.controllers.js
-│   ├── middlewares/
-│   │   ├── errorHandler.middleware.js
-│   │   ├── notFound.middleware.js
-│   │   └── uploadError.middleware.js
-│   ├── models/
-│   │   └── file.model.js
-│   ├── routes/
-│   │   └── file.routes.js
-│   ├── utils/
-│   │   └── file.utils.js
-│   ├── validators/
-│   │   └── file.validators.js
-│   ├── app.js
-│   └── server.js
-├── uploads/
-│   └── .gitkeep
-├── .env.example
-├── .gitignore
-├── package.json
-├── package-lock.json
-├── README.md
-└── requests.http
+â”œâ”€â”€ src/
+â”‚   â”œâ”€â”€ config/
+â”‚   â”‚   â”œâ”€â”€ database.js
+â”‚   â”‚   â””â”€â”€ storage.js
+â”‚   â”œâ”€â”€ controllers/
+â”‚   â”‚   â””â”€â”€ file.controllers.js
+â”‚   â”œâ”€â”€ middlewares/
+â”‚   â”‚   â”œâ”€â”€ errorHandler.middleware.js
+â”‚   â”‚   â”œâ”€â”€ notFound.middleware.js
+â”‚   â”‚   â””â”€â”€ uploadError.middleware.js
+â”‚   â”œâ”€â”€ models/
+â”‚   â”‚   â””â”€â”€ file.model.js
+â”‚   â”œâ”€â”€ routes/
+â”‚   â”‚   â””â”€â”€ file.routes.js
+â”‚   â”œâ”€â”€ utils/
+â”‚   â”‚   â””â”€â”€ file.utils.js
+â”‚   â”œâ”€â”€ validators/
+â”‚   â”‚   â””â”€â”€ file.validators.js
+â”‚   â”œâ”€â”€ app.js
+â”‚   â””â”€â”€ server.js
+â”œâ”€â”€ uploads/
+â”‚   â””â”€â”€ .gitkeep
+â”œâ”€â”€ .env.example
+â”œâ”€â”€ .gitignore
+â”œâ”€â”€ package.json
+â”œâ”€â”€ package-lock.json
+â”œâ”€â”€ README.md
+â””â”€â”€ requests.http
 ```
 
 ## Documentation
 
-Detailed project and code documentation is available in `DOCUMENTATION.md`.
 
 ## Author
 
