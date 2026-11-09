@@ -1,13 +1,17 @@
 const errorHandler = (error, req, res, next) => {
     console.error(error);
 
+    if (res.headersSent) {
+        return next(error);
+    }
+
     // Handle invalid MongoDB ObjectId values that reach Mongoose.
     if (error.name === "CastError" && error.kind === "ObjectId") {
         return res.status(400).json({
             success: false,
             message: "Invalid resource ID.",
             method: req.method,
-            path: req.originalUrl,
+            path: req.path,
         });
     }
 
@@ -20,7 +24,7 @@ const errorHandler = (error, req, res, next) => {
             message: "Database validation failed.",
             errors,
             method: req.method,
-            path: req.originalUrl,
+            path: req.path,
         });
     }
 
@@ -30,7 +34,7 @@ const errorHandler = (error, req, res, next) => {
             success: false,
             message: "A file record with the same unique value already exists.",
             method: req.method,
-            path: req.originalUrl,
+            path: req.path,
         });
     }
 
@@ -40,7 +44,7 @@ const errorHandler = (error, req, res, next) => {
             success: false,
             message: "File storage permission error.",
             method: req.method,
-            path: req.originalUrl,
+            path: req.path,
         });
     }
 
@@ -50,7 +54,7 @@ const errorHandler = (error, req, res, next) => {
             success: false,
             message: "Physical file not found on storage.",
             method: req.method,
-            path: req.originalUrl,
+            path: req.path,
         });
     }
 
@@ -63,7 +67,7 @@ const errorHandler = (error, req, res, next) => {
             : 500;
 
     const message =
-        typeof error.message === "string" && error.message.trim()
+        statusCode < 500 && typeof error.message === "string" && error.message.trim()
             ? error.message
             : "Internal server error.";
 
@@ -71,7 +75,7 @@ const errorHandler = (error, req, res, next) => {
         success: false,
         message,
         method: req.method,
-        path: req.originalUrl,
+        path: req.path,
     });
 };
 

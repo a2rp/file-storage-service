@@ -4,7 +4,7 @@ const notFound = (req, res) => {
         success: false,
         message: "Route not found.",
         method: req.method,
-        path: req.originalUrl,
+        path: req.path,
     });
 };
 

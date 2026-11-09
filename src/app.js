@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 
 const fileRoutes = require("./routes/file.routes");
 
@@ -25,9 +26,12 @@ app.get("/", (req, res) => {
 
 // Health endpoint provides lightweight runtime information.
 app.get("/api/v1/health", (req, res) => {
-    res.status(200).json({
-        success: true,
-        status: "healthy",
+    const databaseConnected = mongoose.connection.readyState === 1;
+
+    return res.status(databaseConnected ? 200 : 503).json({
+        success: databaseConnected,
+        status: databaseConnected ? "healthy" : "degraded",
+        database: databaseConnected ? "connected" : "disconnected",
         service: "file-storage-service",
         version: "1.0.0",
         uptime: Number(process.uptime().toFixed(2)),

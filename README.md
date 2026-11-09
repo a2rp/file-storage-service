@@ -1,6 +1,6 @@
 # File Storage Service
 
-A practical ExpressJS backend for secure file uploads, local file storage, MongoDB metadata, streaming, downloads, search, filtering, pagination, and file lifecycle management.
+An ExpressJS file API for allowlisted uploads, local disk storage, MongoDB metadata, streaming, downloads, search, pagination, and file lifecycle management.
 
 ## Features
 
@@ -50,6 +50,8 @@ application/pdf
 text/plain
 application/zip
 ```
+
+The upload allowlist checks the MIME type supplied with each multipart file. The service does not inspect file contents or authenticate callers.
 
 ## Upload Limits
 
@@ -260,38 +262,25 @@ Response
 
 ```text
 file-storage-service/
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ config/
-â”‚   â”‚   â”œâ”€â”€ database.js
-â”‚   â”‚   â””â”€â”€ storage.js
-â”‚   â”œâ”€â”€ controllers/
-â”‚   â”‚   â””â”€â”€ file.controllers.js
-â”‚   â”œâ”€â”€ middlewares/
-â”‚   â”‚   â”œâ”€â”€ errorHandler.middleware.js
-â”‚   â”‚   â”œâ”€â”€ notFound.middleware.js
-â”‚   â”‚   â””â”€â”€ uploadError.middleware.js
-â”‚   â”œâ”€â”€ models/
-â”‚   â”‚   â””â”€â”€ file.model.js
-â”‚   â”œâ”€â”€ routes/
-â”‚   â”‚   â””â”€â”€ file.routes.js
-â”‚   â”œâ”€â”€ utils/
-â”‚   â”‚   â””â”€â”€ file.utils.js
-â”‚   â”œâ”€â”€ validators/
-â”‚   â”‚   â””â”€â”€ file.validators.js
-â”‚   â”œâ”€â”€ app.js
-â”‚   â””â”€â”€ server.js
-â”œâ”€â”€ uploads/
-â”‚   â””â”€â”€ .gitkeep
-â”œâ”€â”€ .env.example
-â”œâ”€â”€ .gitignore
-â”œâ”€â”€ package.json
-â”œâ”€â”€ package-lock.json
-â”œâ”€â”€ README.md
-â””â”€â”€ requests.http
+|-- src/
+|   |-- config/
+|   |-- controllers/
+|   |-- middlewares/
+|   |-- models/
+|   |-- routes/
+|   |-- utils/
+|   |-- validators/
+|   |-- app.js
+|   `-- server.js
+|-- uploads/
+|-- .env.example
+|-- .gitignore
+|-- LICENSE
+|-- package.json
+|-- package-lock.json
+|-- README.md
+`-- requests.http
 ```
-
-## Documentation
-
 
 ## Author
 

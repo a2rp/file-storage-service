@@ -3,8 +3,11 @@ require("dotenv").config();
 const app = require("./app");
 const { connectDatabase, disconnectDatabase } = require("./config/database");
 
-const PORT = process.env.PORT || 1198;
-const BASE_URL = `http://localhost:${PORT}`;
+const PORT = Number(process.env.PORT ?? 1198);
+
+if (!Number.isInteger(PORT) || PORT < 1 || PORT > 65535) {
+    throw new Error("PORT must be an integer between 1 and 65535.");
+}
 
 let server = null;
 
@@ -14,11 +17,14 @@ const startServer = async () => {
         await connectDatabase();
 
         server = app.listen(PORT, () => {
+            const actualPort = server.address().port;
+            const baseUrl = `http://localhost:${actualPort}`;
+
             console.log("");
             console.log("File Storage Service is running.");
-            console.log(`Root:    ${BASE_URL}/`);
-            console.log(`Health:  ${BASE_URL}/api/v1/health`);
-            console.log(`Files:   ${BASE_URL}/api/v1/files`);
+            console.log(`Root:    ${baseUrl}/`);
+            console.log(`Health:  ${baseUrl}/api/v1/health`);
+            console.log(`Files:   ${baseUrl}/api/v1/files`);
             console.log("");
         });
     } catch (error) {

@@ -41,17 +41,26 @@ const validateFileQuery = (req, res, next) => {
 
     if (search !== undefined && typeof search !== "string") {
         errors.push("search must be a string.");
+    } else if (search !== undefined && search.length > 100) {
+        errors.push("search must be 100 characters or fewer.");
     }
 
     if (mimeType !== undefined && typeof mimeType !== "string") {
         errors.push("mimeType must be a string.");
+    } else if (mimeType !== undefined && mimeType.length > 100) {
+        errors.push("mimeType must be 100 characters or fewer.");
     }
 
     if (extension !== undefined && typeof extension !== "string") {
         errors.push("extension must be a string.");
+    } else if (extension !== undefined && extension.length > 16) {
+        errors.push("extension must be 16 characters or fewer.");
     }
 
-    if (isImage !== undefined && !["true", "false"].includes(isImage)) {
+    if (
+        isImage !== undefined &&
+        (typeof isImage !== "string" || !["true", "false"].includes(isImage))
+    ) {
         errors.push("isImage must be either true or false.");
     }
 
@@ -66,7 +75,7 @@ const validateFileQuery = (req, res, next) => {
     const pageNumber = Number(page);
     const limitNumber = Number(limit);
 
-    if (!Number.isInteger(pageNumber) || pageNumber < 1) {
+    if (!Number.isSafeInteger(pageNumber) || pageNumber < 1) {
         errors.push("page must be a positive integer.");
     }
 
@@ -78,6 +87,14 @@ const validateFileQuery = (req, res, next) => {
         limitNumber > 100
     ) {
         errors.push("limit must be an integer between 1 and 100.");
+    }
+
+    if (
+        Number.isSafeInteger(pageNumber) &&
+        Number.isInteger(limitNumber) &&
+        !Number.isSafeInteger((pageNumber - 1) * limitNumber)
+    ) {
+        errors.push("page and limit produce an unsupported result offset.");
     }
 
     if (errors.length > 0) {

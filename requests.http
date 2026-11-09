@@ -7,15 +7,15 @@ GET http://localhost:1198/api/v1/health
 
 
 ### Upload Single File
-### Change ./sample-files/test.pdf to any local file path you want to upload
+### Replace the sample path with any local PDF file.
 POST http://localhost:1198/api/v1/files/upload
 Content-Type: multipart/form-data; boundary=FileBoundary
 
 --FileBoundary
-Content-Disposition: form-data; name="file"; filename="godaddy payment.pdf"
+Content-Disposition: form-data; name="file"; filename="sample.pdf"
 Content-Type: application/pdf
 
-< ./sample-files/goodaddy payment.pdf
+< ./sample-files/sample.pdf
 --FileBoundary--
 
 
@@ -25,15 +25,15 @@ POST http://localhost:1198/api/v1/files/upload/multiple
 Content-Type: multipart/form-data; boundary=MultiFileBoundary
 
 --MultiFileBoundary
-Content-Disposition: form-data; name="files"; filename="ideamajesty-trees-5555938.jpg"
+Content-Disposition: form-data; name="files"; filename="sample.jpg"
 Content-Type: image/jpeg
 
-< ./sample-files/ideamajesty-trees-5555938.jpg
+< ./sample-files/sample.jpg
 --MultiFileBoundary
-Content-Disposition: form-data; name="files"; filename="DB2F5798E1959EE292E3835B4ED9BA1A.txt"
+Content-Disposition: form-data; name="files"; filename="notes.txt"
 Content-Type: text/plain
 
-< ./sample-files/DB2F5798E1959EE292E3835B4ED9BA1A.txt
+< ./sample-files/notes.txt
 --MultiFileBoundary--
 
 
@@ -51,7 +51,7 @@ GET http://localhost:1198/api/v1/files?page=1&limit=2
 GET http://localhost:1198/api/v1/files?page=2&limit=2
 
 ### Search By Original Filename
-GET http://localhost:1198/api/v1/files?search=godaddy
+GET http://localhost:1198/api/v1/files?search=sample
 
 ### Search By Original Filename
 GET http://localhost:1198/api/v1/files?search=test
@@ -88,16 +88,6 @@ GET http://localhost:1198/api/v1/files?search=idea&isImage=true&sort=createdAt&o
 ### Replace FILE_ID with a real MongoDB file document ID
 GET http://localhost:1198/api/v1/files/FILE_ID
 
-### Get File Metadata By ID
-GET http://localhost:1198/api/v1/files/6a82d55d6762116a688b1b65
-
-### View / Stream File Inline
-GET http://localhost:1198/api/v1/files/6a82d55d6762116a688b1b65/view
-
-### Download File
-GET http://localhost:1198/api/v1/files/6a82d55d6762116a688b1b65/download
-
-
 ### View / Stream File Inline
 ### Replace FILE_ID with a real MongoDB file document ID
 GET http://localhost:1198/api/v1/files/FILE_ID/view
@@ -111,13 +101,6 @@ GET http://localhost:1198/api/v1/files/FILE_ID/download
 ### Delete File
 ### Replace FILE_ID with a real MongoDB file document ID
 DELETE http://localhost:1198/api/v1/files/FILE_ID
-
-### Delete File
-DELETE http://localhost:1198/api/v1/files/6a82d55d6762116a688b1b66
-
-### confirm delete
-GET http://localhost:1198/api/v1/files/6a82d55d6762116a688b1b66
-
 
 ### Invalid File ID
 GET http://localhost:1198/api/v1/files/invalid-id

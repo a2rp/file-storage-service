@@ -1,13 +1,20 @@
 {
   "name": "file-storage-service",
   "version": "1.0.0",
-  "description": "ExpressJS file storage backend with secure uploads, validation, MongoDB metadata, streaming, downloads, search, pagination, and file lifecycle management.",
+  "description": "ExpressJS file storage API with allowlisted uploads, MongoDB metadata, streaming, downloads, search, and file management.",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js"
   },
-  "keywords": [],
+  "keywords": [
+    "express",
+    "file-upload",
+    "file-storage",
+    "mongodb",
+    "multer",
+    "rest-api"
+  ],
   "author": "Ashish Ranjan",
   "license": "MIT",
   "type": "commonjs",

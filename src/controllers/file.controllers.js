@@ -11,6 +11,19 @@ const {
     formatFileSize,
 } = require("../utils/file.utils");
 
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const inlineContentDisposition = (filename) => {
+    const baseName = path.basename(String(filename).replace(/\\/g, "/"));
+    const safeName = baseName.replace(/[\r\n]/g, "_");
+    const fallbackName = safeName.replace(/[^\x20-\x7E]|["\\]/g, "_") || "file";
+    const encodedName = encodeURIComponent(safeName).replace(/['()*]/g, (character) =>
+        `%${character.charCodeAt(0).toString(16).toUpperCase()}`,
+    );
+
+    return `inline; filename="${fallbackName}"; filename*=UTF-8''${encodedName}`;
+};
+
 // Upload one file and persist its metadata in MongoDB.
 const uploadSingleFile = async (req, res, next) => {
     try {
@@ -102,16 +115,17 @@ const getFiles = async (req, res, next) => {
 
         const filter = {};
 
-        if (search) {
+        const searchTerm = search?.trim();
+        if (searchTerm) {
             filter.originalName = {
-                $regex: search.trim(),
+                $regex: escapeRegex(searchTerm),
                 $options: "i",
             };
         }
 
         if (mimeType) {
             filter.mimeType = {
-                $regex: `^${mimeType.trim()}$`,
+                $regex: `^${escapeRegex(mimeType.trim())}$`,
                 $options: "i",
             };
         }
@@ -254,12 +268,13 @@ const viewFile = async (req, res, next) => {
         const fileStats = await fs.promises.stat(file.storagePath);
 
         res.setHeader("Content-Type", file.mimeType);
+        res.setHeader("X-Content-Type-Options", "nosniff");
 
         res.setHeader("Content-Length", fileStats.size);
 
         res.setHeader(
             "Content-Disposition",
-            `inline; filename="${path.basename(file.originalName)}"`,
+            inlineContentDisposition(file.originalName),
         );
 
         const stream = fs.createReadStream(file.storagePath);

@@ -3,11 +3,25 @@ const path = require("path");
 const crypto = require("crypto");
 const multer = require("multer");
 
-const UPLOAD_DIRECTORY = path.join(process.cwd(), "uploads");
+const UPLOAD_DIRECTORY = path.resolve(__dirname, "../../uploads");
 
-const MAX_FILE_SIZE = Number(process.env.MAX_FILE_SIZE) || 10 * 1024 * 1024;
+const readPositiveInteger = (name, defaultValue) => {
+    if (process.env[name] === undefined) {
+        return defaultValue;
+    }
 
-const MAX_FILES = Number(process.env.MAX_FILES) || 5;
+    const value = Number(process.env[name]);
+
+    if (!Number.isSafeInteger(value) || value < 1) {
+        throw new Error(`${name} must be a positive integer.`);
+    }
+
+    return value;
+};
+
+const MAX_FILE_SIZE = readPositiveInteger("MAX_FILE_SIZE", 10 * 1024 * 1024);
+
+const MAX_FILES = readPositiveInteger("MAX_FILES", 5);
 
 const allowedMimeTypes = new Set([
     "image/jpeg",
